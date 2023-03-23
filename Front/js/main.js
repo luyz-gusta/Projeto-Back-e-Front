@@ -4,7 +4,7 @@
 
 import { dadosUsuario } from "./whatsapp.js"
 
-const contatos = await dadosUsuario('11987876567')
+const contatos = await dadosUsuario('11966578996')
 
 const carregarHeader = (indice) => {
 

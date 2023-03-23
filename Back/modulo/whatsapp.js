@@ -64,7 +64,7 @@ const getContatosUsuario = (numeroUsuario) => {
             })
         }
     })
-    return listaContatosUsuario
+    return {listaContatosUsuario}
 }
 
 module.exports = {
