@@ -34,13 +34,29 @@ app.use((request, response, next) => {
 
 })
 
-app.get('/v1/whatsapp/contatos/numero/:numero', cors(), async function(request, response, next){
+app.get('/v1/whatsapp/contatos/numero/:numero', cors(), async function (request, response, next) {
     let numeroUsuario = request.params.numero
+    let statusCode
+    let dadosUsuario = {}
 
-    let usuario = whatsapp.getContatosUsuario(numeroUsuario)
+    if (numeroUsuario == '' || numeroUsuario == undefined) {
+        statusCode = 400
+        usuario.message = 'Não foi possivel processar os dados de entrada (uf) que foi enviado não corresponde ao exigido, confira o valor.'
+    } else {
+        let usuario = whatsapp.getContatosUsuario(numeroUsuario)
+        dadosUsuario = []
 
-    response.status(200)
-    response.json(usuario)
+        if (usuario) {
+            statusCode = 200
+            dadosUsuario = usuario
+        } else {
+            statusCode = 404
+        }
+
+    }
+
+    response.status(statusCode)
+    response.json(dadosUsuario)
 })
 
 app.listen(8080, () => { console.log('Servidor aguardando requisição na porta 8080.') })
