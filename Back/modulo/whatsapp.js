@@ -9,17 +9,65 @@ const contatos = require('./contatos.js')
 
 const arquivoContatos = contatos.contatos['whats-users']
 
-const formatacaoJSON = (numeroPessoa) => {
-    let arrayListaContatos
-    
-    arquivoContatos.forEach((contatosJSON) => {
-        if(contatosJSON.number == numeroPessoa){
-            contatosJSON.contacts.forEach((contatosDoPerfil) => {
-                arrayListaContatos = {
-                name: contatosJSON.contacts[0].name,
-                description: contatosJSON.contacts[0].description
+const getUsuario = (numeroTelefone) => {
+    let telefone = numeroTelefone
+    let listaDadosUsuaio
+    let status = true
+
+    arquivoContatos.forEach((usuario) => {
+        if (telefone == usuario.number) {
+            listaDadosUsuaio = {
+                id: usuario.id,
+                nickname: usuario.nickname,
+                number: usuario.number,
+                fotoPerfil: usuario['profile-image'],
+                contatos: usuario.contacts
             }
+        }
+    })
+    if (listaDadosUsuaio == undefined) {
+        status = false
+    } else {
+        status = listaDadosUsuaio
+    }
+    return status
+}
+
+const getContatosUsuario = (numeroUsuario) => {
+    let telefone = numeroUsuario
+    let contacts = {}
+    let mensagens = {}
+    const listaContatosUsuario = []
+
+    arquivoContatos.forEach((usuario) => {
+        if (usuario.number == telefone) {
+            usuario.contacts.forEach((listaContatos) => {
+                const nome = listaContatos.name
+                const descricao = listaContatos.description
+                const imagem = listaContatos.image
+                const listaMensagens = []
+                listaContatos.messages.forEach((mensagem) => {
+                    mensagens = {
+                        sender: mensagem.sender,
+                        content: mensagem.content,
+                        time: mensagem.time
+                    }
+                    listaMensagens.push(mensagens)
+                })
+                contacts = {
+                    name: nome,
+                    description: descricao,
+                    image: imagem,
+                    messages: listaMensagens
+                }
+                listaContatosUsuario.push(contacts)
             })
         }
     })
+    return listaContatosUsuario
+}
+
+module.exports = {
+    getUsuario,
+    getContatosUsuario
 }

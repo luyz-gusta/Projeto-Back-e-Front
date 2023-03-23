@@ -1,6 +1,10 @@
 'use strict'
 
-import { contatos } from "./contatos.js"
+// import { contatos } from "./contatos.js"
+
+import { dadosUsuario } from "./whatsapp.js"
+
+const contatos = await dadosUsuario('11987876567')
 
 const carregarHeader = (indice) => {
 
@@ -161,6 +165,5 @@ const setas = document.getElementById('arrowHtml')
 setas.addEventListener('click', (event) => {
     listaDeContatosMobile()
 })
-
 
 carregarContatos()
